@@ -3,9 +3,10 @@
   {
     page: integer,
     favorites: [ids],
-
+    viewImage: boolean
+    imageToView: {image info}
     viewFavorites: boolean,
-    loaded: boolean
+    images: [objects]
   }
 */
 
@@ -19,13 +20,20 @@ const reducer = (state = {}, action) => {
       state.favorites,
       action
     ),
-
+    viewImage: viewImgToggle(
+      state.viewImage,
+      action
+    ),
+    imageToView: setViewImage(
+      state.imageToView,
+      action
+    ),
     viewFavorites: viewFavToggle(
       state.viewFavorites,
       action
     ),
-    loaded: loadSet(
-      state.loaded,
+    images: imageSet(
+      state.images,
       action
     )
   }
@@ -83,8 +91,43 @@ const favReducer = (state = [], action) => {
       favorites.push(action.id);
       return favorites;
 
-    //FAVORITE REMOVE
+    case "FAVORITE_REMOVE":
+      //FAVORITE_REMOVE: Removes a favorite from the favorites array
+      //includes an "id" value, which is the id to find in the array to remove.
+      const favs = [...state]
+      const index = favs.findIndex((id) => id === action.id)
+      favs.splice(index, 1)
+      return favs;
 
+
+    default:
+      //if the action isn't valid, just return the state
+      return state;
+  }
+}
+
+const viewImgToggle = (state = false, action) => {
+  switch (action.type) {
+    case "IMG_VIEW":
+      // IMG_VIEW: sets viewImage to true, indicating that a full image is being shown
+      return true;
+
+    case "THUMB_VIEW":
+      // THUMB_VIEW: sets viewImage to false, indicating that thumbnails should be shown
+      return false;
+
+    default:
+      //if the action isn't valid, just return the state
+      return state;
+  }
+}
+
+const setViewImage = (state = 0, action) => {
+  switch (action.type) {
+    case "SET_IMAGE":
+      // SET_IMAGE: Changes imageToView's value to the information of the full image to be viewed.
+      // Takes an aditional "info" value
+      return action.info
 
     default:
       //if the action isn't valid, just return the state
@@ -105,13 +148,13 @@ const viewFavToggle = (state = false, action) => {
   }
 }
 
-const loadSet = (state = false, action) => {
+const imageSet = (state = [], action) => {
   switch (action.type) {
     case "IMAGES_LOADED":
-      //IMAGES_LOADED: Sets the loaded state to true, telling the app that the API call to get the images is complete
-      //This is almost certainly not the most efficient way to handle this asynchronous action, but can serve as a functional placeholder until further development is done.
-      state = true;
-      return state;
+      // IMAGES_LOADED: Sets the images state to the array of objects gotten from the API
+      // Takes "images" value in the action
+      // This is almost certainly not the most efficient way to handle this asynchronous action, but can serve as a functional placeholder until further development is done.
+      return action.images;
 
     default:
       //if the action isn't valid, just return the state
