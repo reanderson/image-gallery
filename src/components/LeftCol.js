@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import Thumbnail from "./Thumbnail.js"
+import Pagination from "./Pagination.js"
 
 class LeftCol extends Component {
 
-  addFavorite () {
+  addFavorite() {
     this.props.store.dispatch({
       type: "FAVORITE_ADD",
       id: this.props.activeState.imageToView.id
@@ -31,30 +32,31 @@ class LeftCol extends Component {
         <img className="img-fluid mb-3" src={this.props.activeState.imageToView.url} alt={this.props.activeState.imageToView.title} />
         <div className="row">
           <div className="col">
-          {this.props.activeState.favorites.includes(this.props.activeState.imageToView.id) ? 
-          (<button className="btn btn-primary btn-block" onClick={()=>this.removeFavorite()}><i className="far fa-star" /> Remove from Favorites</button>) : 
-          (<button className="btn btn-primary btn-block" onClick={()=>this.addFavorite()}><i className="fas fa-star" /> Add to Favorites</button>)}
+            {this.props.activeState.favorites.includes(this.props.activeState.imageToView.id) ?
+              (<button className="btn btn-primary btn-block" onClick={() => this.removeFavorite()}><i className="far fa-star" /> Remove from Favorites</button>) :
+              (<button className="btn btn-primary btn-block" onClick={() => this.addFavorite()}><i className="fas fa-star" /> Add to Favorites</button>)}
           </div>
           <div className="col">
-          <button className="btn btn-danger btn-block" onClick={()=>this.closeImgView()}>Close</button>
+            <button className="btn btn-danger btn-block" onClick={() => this.closeImgView()}>Close</button>
           </div>
         </div>
       </div>)
     }
     else {
-      return (<div className="col col-12 col-md-9">
+      return (<div className="col col-12 col-md-9 text-center">
+        <Pagination {...this.props} />
         <div className="row justify-content-center">
-        {/* Add pagination here */}
+
           {
             this.props.activeState.images.filter((imgInfo) => {
               return imgInfo.albumId === this.props.activeState.page
             })
               .map((imgInfo) => {
-                return (<Thumbnail imgInfo={imgInfo} store={this.props.store} leftCol={true} key={imgInfo.id}/>)
+                return (<Thumbnail imgInfo={imgInfo} store={this.props.store} leftCol={true} key={imgInfo.id} />)
               })
           }
-          {/* Also put pagination here */}
         </div>
+        <Pagination {...this.props} />
       </div>)
     }
 
