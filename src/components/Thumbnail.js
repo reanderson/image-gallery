@@ -14,7 +14,7 @@ class Thumbnail extends Component {
   }
 
   render() {
-    return (<div className="col col-md-3 col-sm-4 col-6">
+    return (<div className={this.props.leftCol ? "col col-md-3 col-sm-4 col-6" : "col col-md-6 col-12"}>
       <img src={this.props.imgInfo.thumbnailUrl} alt={this.props.imgInfo.title} className="img-thumbnail my-1" onClick={() => this.viewImage()}/>
     </div>)
   }
