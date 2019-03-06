@@ -50,7 +50,7 @@ class App extends Component {
       )
     } else {
       return (<div className="App">
-        Look this thing's loading ok?
+        Retrieving images...
       </div>)
     }
     ;
