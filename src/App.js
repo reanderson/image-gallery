@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import API from './utils/API.js'
-import { Z_FILTERED } from 'zlib';
-import { AST_PropAccess } from '../node_modules/terser';
 import LeftCol from './components/LeftCol.js'
 import Thumbnail from './components/Thumbnail.js'
 
